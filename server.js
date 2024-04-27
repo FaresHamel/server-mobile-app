@@ -354,7 +354,27 @@ app.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Error: Data insertion failed!" });
   }
 });
-
+app.put("/update", async (req, res) => {
+   const id = req.body.userId;
+   const password = req.body.userPassword;
+   const phoneNumber = req.body.userPhone;
+   const query = "UPDATE `easierjustice`.`users` SET `phone` = '" + phoneNumber + "', `password` = '" + password + "' WHERE (`id` = '" + id + "');";
+   try {
+        connection.query(query, (err, rows, fields) => {
+          if (err) throw err;
+          // console.log(rows);
+          if (rows.affectedRows === 1) {
+            console.log(rows.affectedRows);
+            res.status(200).send('okay');
+          } else {
+            res.status(400).send('No record found with the provided ID');
+          }
+        });
+     console.log(result);
+   } catch (error) {
+     
+   }
+});
 
 app.listen(3000, () => {
   console.log("server of login and sign up in port 4000");
